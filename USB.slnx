@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/USB.Application/USB.Application.csproj" Id="3bc51625-08c3-4b90-b43f-96e642066220" />
+  <Project Path="src/USB.Domain/USB.Domain.csproj" Id="e0ff222b-4407-4ac9-abce-9b86a0147c58" />
+  <Project Path="src/USB.Infrastructure/USB.Infrastructure.csproj" Id="69a9f125-2f6a-472f-b69a-f4d43346eb83" />
+  <Project Path="src/USB.Server/USB.Server.csproj" Id="2df8652c-15b8-4c6f-8bcd-0f41555acaa2" />
+</Solution>
