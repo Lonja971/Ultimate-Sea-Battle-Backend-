@@ -25,7 +25,8 @@ namespace USB.Infrastructure.Repositories
             var random = Random.Shared;
             var file = files[random.Next(files.Length)];
             var json = File.ReadAllText(file);
-            Map? map = JsonSerializer.Deserialize<Map>(json);
+            //var opts = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            Map? map = JsonSerializer.Deserialize<Map>(json); //, opts);
 
             if (map == null) throw new InvalidOperationException($"Failed to load map: {file}");
 

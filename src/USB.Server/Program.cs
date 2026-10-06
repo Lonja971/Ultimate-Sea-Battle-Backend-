@@ -1,6 +1,7 @@
 ﻿using USB.Application.Repositories;
 using USB.Application.Services;
 using USB.Domain;
+using USB.Domain.Maps;
 using USB.Infrastructure.Repositories;
 
 IMapRepository mapRepository = new JsonMapRepository("data/Maps");
@@ -18,5 +19,8 @@ Battle? battle = matchmakingService.AddPlayerToQueue(player2);
 if (battle != null)
 {
     Console.WriteLine("Battle Created!");
-    Console.WriteLine($"Id: {battle.Id}");
+    Console.WriteLine($"Id: {battle.Map.Islands}");
 }
+
+battle.Map.RemoveEntityFromCell(new CellPosition(X: 14, Y: 14), new EntityReference(USB.Domain.Enums.EntityType.Island, null));
+Console.WriteLine(battle);

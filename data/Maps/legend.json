@@ -2,5 +2,15 @@
     "Id": 1,
     "Name": "Legend",
     "Width": 30,
-    "Height": 30
+    "Height": 30,
+    "Islands": [
+        {
+            "X": 14,
+            "Y": 14
+        },
+        {
+            "X": 14,
+            "Y": 15
+        }
+    ]
 }
