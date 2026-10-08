@@ -5,10 +5,9 @@ using USB.Domain.Enums;
 
 namespace USB.Domain
 {
-    public readonly record struct EntityReference
+    public readonly record struct ObstacleReference
     (
-        EntityType Type,
-        int? Id = null,
-        bool IsPassable = false
+        ObstacleType Type,
+        int? Id = null
     );
 }

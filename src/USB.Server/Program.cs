@@ -19,8 +19,7 @@ Battle? battle = matchmakingService.AddPlayerToQueue(player2);
 if (battle != null)
 {
     Console.WriteLine("Battle Created!");
-    Console.WriteLine($"Id: {battle.Map.Islands}");
 }
 
-battle.Map.RemoveEntityFromCell(new CellPosition(X: 14, Y: 14), new EntityReference(USB.Domain.Enums.EntityType.Island, null));
-Console.WriteLine(battle);
+//battle.Map.RemoveEntityFromCell(new CellPosition(X: 14, Y: 14), new EntityReference(USB.Domain.Enums.EntityType.Island, null));
+battle.Map.RemoveEntityFromCell(new CellPosition(X: 12, Y:32), new ObstacleReference(USB.Domain.Enums.ObstacleType.Island));

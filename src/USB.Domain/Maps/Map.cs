@@ -11,8 +11,8 @@ namespace USB.Domain.Maps
         public string Name { get; }
         public int Width { get; }
         public int Height { get; }
-        public List<CellPosition> Islands { get; } = new List<CellPosition>();
-        public Dictionary<CellPosition, List<EntityReference>> OccupiedCells { get; } = new Dictionary<CellPosition, List<EntityReference>>();
+        public List<CellPosition> Islands { get; }
+        public Dictionary<CellPosition, ObstacleReference> BlockedCells { get; } = new Dictionary<CellPosition, ObstacleReference>();
 
         public Map(int id, string name, int width, int height, List<CellPosition> islands)
         {
@@ -25,8 +25,8 @@ namespace USB.Domain.Maps
             {
                 for (int i = 0; i < islands.Count; i++)
                 {
-                    EntityReference island = new EntityReference(Enums.EntityType.Island, null);
-                    AddToCell(islands[i], island);
+                    ObstacleReference island = new ObstacleReference(ObstacleType.Island);
+                    AddEntityToCell(islands[i], island);
                 }
             }
         }
@@ -38,42 +38,43 @@ namespace USB.Domain.Maps
 
         public bool RemoveCell(CellPosition pos)
         {
-            return OccupiedCells.Remove(pos);
+            return BlockedCells.Remove(pos);
         }
 
-        public bool AddToCell(CellPosition pos, EntityReference entityRef)
+        public bool AddEntityToCell(CellPosition pos, ObstacleReference obstacleRef)
         {
             if (!IsInsideMapBounds(pos)) return false;
+            if (BlockedCells.ContainsKey(pos)) return false;
 
-            if (!OccupiedCells.TryGetValue(pos, out var entities))
-            {
-                entities = new List<EntityReference>();
-                OccupiedCells.Add(pos, entities);
-            }
+            BlockedCells.Add(pos, obstacleRef);
 
-            OccupiedCells[pos].Add(entityRef);
             return true;
         }
 
-        public bool RemoveEntityFromCell(CellPosition pos, EntityReference entityRef)
+        public bool AddEntityToCells(ObstacleReference obstacleRef, List<CellPosition> cellPositions)
         {
-            if (!OccupiedCells.ContainsKey(pos)) return false;
-            List<EntityReference> posEntities = OccupiedCells[pos];
-            if (posEntities.Count == 0) return false;
-
-            for (int i = posEntities.Count - 1; i >= 0; i--)
+            foreach (CellPosition cellPosition in cellPositions)
             {
-                if (entityRef == posEntities[i])
-                {
-                    OccupiedCells[pos].Remove(posEntities[i]);
-                }
+                AddEntityToCell(cellPosition, obstacleRef);
             }
+            return true;
+        }
 
-            if (OccupiedCells[pos].Count == 0)
+        public bool RemoveEntityFromCell(CellPosition pos, ObstacleReference obstacleRef)
+        {
+            if (!BlockedCells.ContainsKey(pos)) return false;
+            ObstacleReference savedRef = BlockedCells[pos];
+            if (savedRef != obstacleRef) return false;
+            
+            return RemoveCell(pos);
+        }
+
+        public bool RemoveEntityFromCells(ObstacleReference obstacleRef, List<CellPosition> cellPositions)
+        {
+            foreach (CellPosition cellPos in cellPositions)
             {
-                RemoveCell(pos);
+                RemoveEntityFromCell(cellPos, obstacleRef);
             }
-
             return true;
         }
     }
